@@ -1,0 +1,77 @@
+# Docker Compose file for running the complete SupportSphere project.
+# It starts three containers:
+# 1. frontend: static website served by nginx
+# 2. backend: Spring Boot API running on Java 17
+# 3. mongodb: database with persistent storage
+
+services:
+  mongodb:
+    # Official MongoDB image from Docker Hub.
+    image: mongo:7
+    container_name: supportsphere-mongodb
+    restart: unless-stopped
+    ports:
+      # host:container
+      - "27017:27017"
+    volumes:
+      # Keeps MongoDB data even if the container is removed.
+      - mongo-data:/data/db
+    healthcheck:
+      # Marks MongoDB healthy only after it can answer a ping command.
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - supportsphere-network
+
+  backend:
+    # Build the backend image from backend/Dockerfile.
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    # Image name is ready for Docker Hub tagging/pushing.
+    image: supportsphere/backend:latest
+    container_name: supportsphere-backend
+    restart: unless-stopped
+    ports:
+      # Spring Boot API is available at http://localhost:8080
+      - "8080:8080"
+    environment:
+      # The backend reaches MongoDB by service name on the Docker network.
+      MONGO_URI: mongodb://mongodb:27017/supportsphere
+    depends_on:
+      # Start backend only after MongoDB is ready to accept connections.
+      mongodb:
+        condition: service_healthy
+    networks:
+      - supportsphere-network
+
+  frontend:
+    # Build the frontend image from frontend/Dockerfile.
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    # Image name is ready for Docker Hub tagging/pushing.
+    image: supportsphere/frontend:latest
+    container_name: supportsphere-frontend
+    restart: unless-stopped
+    ports:
+      # Website is available at http://localhost:3000
+      - "3000:80"
+    depends_on:
+      # Start backend before starting the frontend container.
+      backend:
+        condition: service_started
+    networks:
+      - supportsphere-network
+
+volumes:
+  # Named Docker volume for persistent MongoDB data.
+  mongo-data:
+
+networks:
+  # Dedicated network so containers can talk using service names.
+  supportsphere-network:
+    driver: bridge

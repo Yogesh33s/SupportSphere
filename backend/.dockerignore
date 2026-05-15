@@ -1,0 +1,8 @@
+# Maven build output is recreated inside the Docker image.
+target/
+
+# Local logs and editor files are not needed in the image build context.
+*.log
+*.err.log
+.idea/
+.vscode/

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SupportSphere</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="top-bar">
+        <div>
+            <p class="eyebrow">NGO Community Help Desk</p>
+            <h1>SupportSphere</h1>
+        </div>
+        <button id="refreshButton" class="secondary-button" type="button">Refresh</button>
+    </header>
+
+    <main class="page-shell">
+        <section class="intro-section">
+            <div>
+                <h2>Manage community help requests</h2>
+                <p>
+                    Create, track, and complete support requests for local community
+                    assistance in one simple dashboard.
+                </p>
+            </div>
+            <div class="stat-box">
+                <span id="totalRequests">0</span>
+                <p>Total Requests</p>
+            </div>
+        </section>
+
+        <section class="content-grid">
+            <section class="form-panel" aria-labelledby="formTitle">
+                <h2 id="formTitle">Create Help Request</h2>
+
+                <form id="requestForm">
+                    <label for="title">Request Title</label>
+                    <input id="title" name="title" type="text" placeholder="Example: Food support needed" required>
+
+                    <label for="description">Description</label>
+                    <textarea id="description" name="description" rows="5" placeholder="Describe the help required" required></textarea>
+
+                    <label for="requesterName">Requester Name</label>
+                    <input id="requesterName" name="requesterName" type="text" placeholder="Enter requester name" required>
+
+                    <button type="submit" class="primary-button">Submit Request</button>
+                </form>
+            </section>
+
+            <section class="requests-panel" aria-labelledby="requestsTitle">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">Live records</p>
+                        <h2 id="requestsTitle">Community Requests</h2>
+                    </div>
+                    <p id="statusMessage" class="status-message">Loading requests...</p>
+                </div>
+
+                <div id="requestsContainer" class="requests-container"></div>
+            </section>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

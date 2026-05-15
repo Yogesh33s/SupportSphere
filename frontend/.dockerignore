@@ -1,0 +1,5 @@
+# Local logs and editor files are not needed in the nginx image.
+*.log
+*.err.log
+.idea/
+.vscode/
