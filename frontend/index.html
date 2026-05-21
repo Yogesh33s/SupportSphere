@@ -4,57 +4,135 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SupportSphere</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header class="top-bar">
-        <div>
-            <p class="eyebrow">NGO Community Help Desk</p>
-            <h1>SupportSphere</h1>
-        </div>
-        <button id="refreshButton" class="secondary-button" type="button">Refresh</button>
+        <a class="brand-block" href="#dashboard" aria-label="SupportSphere dashboard">
+            <span class="brand-icon" aria-hidden="true">
+                <i class="fa-solid fa-hands-holding-circle"></i>
+            </span>
+            <span class="brand-copy">
+                <strong>SupportSphere</strong>
+                <small>NGO Operations Portal</small>
+            </span>
+        </a>
+
+        <button id="refreshButton" class="secondary-button" type="button">
+            <i class="fa-solid fa-rotate-right" aria-hidden="true"></i>
+            <span>Refresh</span>
+        </button>
     </header>
 
-    <main class="page-shell">
-        <section class="intro-section">
-            <div>
-                <h2>Manage community help requests</h2>
+    <main id="dashboard" class="dashboard-shell">
+        <section class="hero-panel" aria-labelledby="dashboardTitle">
+            <div class="hero-content">
+                <p class="eyebrow">Community Support Command Center</p>
+                <h1 id="dashboardTitle">Manage help requests with clarity and speed.</h1>
                 <p>
-                    Create, track, and complete support requests for local community
-                    assistance in one simple dashboard.
+                    Track field requests, organize assistance, and close community support tasks
+                    from one clean operational dashboard.
                 </p>
             </div>
-            <div class="stat-box">
-                <span id="totalRequests">0</span>
-                <p>Total Requests</p>
+
+            <div class="hero-card" aria-label="Portal status">
+                <span class="status-dot"></span>
+                <div>
+                    <strong>Live Desk</strong>
+                    <p id="statusMessage">Loading requests...</p>
+                </div>
             </div>
         </section>
 
-        <section class="content-grid">
-            <section class="form-panel" aria-labelledby="formTitle">
-                <h2 id="formTitle">Create Help Request</h2>
+        <section class="metrics-grid" aria-label="Dashboard statistics">
+            <article class="metric-card total">
+                <div class="metric-icon" aria-hidden="true">
+                    <i class="fa-solid fa-clipboard-list"></i>
+                </div>
+                <div>
+                    <span id="totalRequests">0</span>
+                    <p>Total Requests</p>
+                </div>
+            </article>
+
+            <article class="metric-card pending">
+                <div class="metric-icon" aria-hidden="true">
+                    <i class="fa-solid fa-hourglass-half"></i>
+                </div>
+                <div>
+                    <span id="activeRequests">0</span>
+                    <p>Active Cases</p>
+                </div>
+            </article>
+
+            <article class="metric-card completed">
+                <div class="metric-icon" aria-hidden="true">
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+                <div>
+                    <span id="completedRequests">0</span>
+                    <p>Completed</p>
+                </div>
+            </article>
+        </section>
+
+        <section class="workspace-grid">
+            <aside id="create-request" class="form-panel" aria-labelledby="formTitle">
+                <div class="panel-heading">
+                    <span class="section-icon" aria-hidden="true">
+                        <i class="fa-solid fa-circle-plus"></i>
+                    </span>
+                    <div>
+                        <p class="eyebrow dark">Intake Form</p>
+                        <h2 id="formTitle">Create Help Request</h2>
+                    </div>
+                </div>
 
                 <form id="requestForm">
-                    <label for="title">Request Title</label>
-                    <input id="title" name="title" type="text" placeholder="Example: Food support needed" required>
-
-                    <label for="description">Description</label>
-                    <textarea id="description" name="description" rows="5" placeholder="Describe the help required" required></textarea>
-
-                    <label for="requesterName">Requester Name</label>
-                    <input id="requesterName" name="requesterName" type="text" placeholder="Enter requester name" required>
-
-                    <button type="submit" class="primary-button">Submit Request</button>
-                </form>
-            </section>
-
-            <section class="requests-panel" aria-labelledby="requestsTitle">
-                <div class="section-heading">
-                    <div>
-                        <p class="eyebrow">Live records</p>
-                        <h2 id="requestsTitle">Community Requests</h2>
+                    <div class="field-group">
+                        <label for="title">Request Title</label>
+                        <input id="title" name="title" type="text" placeholder="Example: Food support needed" required>
                     </div>
-                    <p id="statusMessage" class="status-message">Loading requests...</p>
+
+                    <div class="field-group">
+                        <label for="description">Description</label>
+                        <textarea id="description" name="description" rows="5" placeholder="Describe the help required" required></textarea>
+                    </div>
+
+                    <div class="field-group">
+                        <label for="requesterName">Requester Name</label>
+                        <input id="requesterName" name="requesterName" type="text" placeholder="Enter requester name" required>
+                    </div>
+
+                    <button type="submit" class="primary-button">
+                        <i class="fa-solid fa-paper-plane" aria-hidden="true"></i>
+                        <span>Submit Request</span>
+                    </button>
+                </form>
+            </aside>
+
+            <section id="requests" class="requests-panel" aria-labelledby="requestsTitle">
+                <div class="requests-toolbar">
+                    <div class="panel-heading">
+                        <span class="section-icon" aria-hidden="true">
+                            <i class="fa-solid fa-handshake-angle"></i>
+                        </span>
+                        <div>
+                            <p class="eyebrow dark">Live Records</p>
+                            <h2 id="requestsTitle">Community Requests</h2>
+                        </div>
+                    </div>
+
+                    <div class="filter-controls" aria-label="Filter community requests">
+                        <button class="filter-button active" type="button" data-filter="all">All</button>
+                        <button class="filter-button" type="button" data-filter="pending">Pending</button>
+                        <button class="filter-button" type="button" data-filter="completed">Completed</button>
+                        <button class="filter-button" type="button" data-filter="month">This Month</button>
+                    </div>
                 </div>
 
                 <div id="requestsContainer" class="requests-container"></div>
